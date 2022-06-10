@@ -8,6 +8,9 @@ $TTL 86400
 		86400 )    ; minimum TTL of 1 day
 	NS	ns1.md.freifunk.net.
 ;
+            A       5.252.224.201
+            MX 10   mail.netz39.de.
+;
 ns1         A       5.252.224.201
 ;
 web         A       5.252.224.201
