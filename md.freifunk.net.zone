@@ -24,3 +24,5 @@ gw1         A       37.120.160.206
             AAAA    2a03:4000:6:30c3::1
 gw2         A       46.232.249.208
             AAAA    2a03:4000:2b:239::ff
+;
+grafana     CNAME   web
