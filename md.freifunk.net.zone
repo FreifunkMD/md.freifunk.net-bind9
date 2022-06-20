@@ -1,7 +1,7 @@
 $ORIGIN md.freifunk.net.
 $TTL 86400
 @	SOA	ns1.md.freifunk.net.	abuse.md.freifunk.net. (
-		2022061001 ; serial
+		2022061801 ; serial
 		21600      ; refresh after 6 hours
 		3600       ; retry after 1 hour
 		604800     ; expire after 1 week
@@ -24,3 +24,5 @@ gw1         A       37.120.160.206
             AAAA    2a03:4000:6:30c3::1
 gw2         A       46.232.249.208
             AAAA    2a03:4000:2b:239::ff
+;
+grafana     CNAME   web
