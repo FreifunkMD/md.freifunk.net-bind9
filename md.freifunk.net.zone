@@ -32,3 +32,4 @@ firmware    CNAME   web1
 ;
 fastd1      CNAME   gw1
 fastd2      CNAME   gw2
+graph       CNAME   web1
