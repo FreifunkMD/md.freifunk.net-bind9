@@ -28,6 +28,7 @@ gw2         A       46.232.249.208
 ;
 grafana     CNAME   web
 map         CNAME   web
+firmware    CNAME   web1
 ;
 fastd1      CNAME   gw1
 fastd2      CNAME   gw2
