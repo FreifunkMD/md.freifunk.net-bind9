@@ -11,6 +11,7 @@ $TTL 86400
             A       5.252.224.201
             MX 10   mail.netz39.de.
             TXT     v=spf1 mx ~all
+_dmarc      TXT     "v=DMARC1; p=reject; rua=kontakt@md.freifunk.net"
 ;
 ns1         A       5.252.224.201
 ;
