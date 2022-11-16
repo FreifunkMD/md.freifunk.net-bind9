@@ -1,7 +1,7 @@
 $ORIGIN md.freifunk.net.
 $TTL 86400
 @	SOA	ns1.md.freifunk.net.	abuse.md.freifunk.net. (
-		2022102401 ; serial
+		2022111501 ; serial
 		21600      ; refresh after 6 hours
 		3600       ; retry after 1 hour
 		604800     ; expire after 1 week
@@ -11,6 +11,7 @@ $TTL 86400
             A       5.252.224.201
             MX 10   mail.netz39.de.
             TXT     v=spf1 mx ~all
+_dmarc      TXT     "v=DMARC1; p=reject; rua=kontakt@md.freifunk.net"
 ;
 ns1         A       5.252.224.201
 ;
