@@ -1,7 +1,7 @@
 $ORIGIN md.freifunk.net.
 $TTL 86400
 @	SOA	ns1.md.freifunk.net.	abuse.md.freifunk.net. (
-		2022111501 ; serial
+		2022111601 ; serial
 		21600      ; refresh after 6 hours
 		3600       ; retry after 1 hour
 		604800     ; expire after 1 week
@@ -16,8 +16,10 @@ _dmarc      TXT     "v=DMARC1; p=reject; rua=kontakt@md.freifunk.net"
 ns1         A       5.252.224.201
 ;
 web         A       5.252.224.201
+            AAAA    2a03:4000:40:33f::1
 ;
 gw01.babel  A       159.69.157.35
+            AAAA    2a01:4f8:1c1c:71b5::1
 gw02.babel  A       185.37.145.35
 ;
 web1        A       37.120.170.49
