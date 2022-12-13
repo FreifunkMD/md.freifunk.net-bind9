@@ -1,7 +1,7 @@
 $ORIGIN md.freifunk.net.
 $TTL 86400
 @	SOA	ns1.md.freifunk.net.	abuse.md.freifunk.net. (
-		2022121302 ; serial
+		2022121303 ; serial
 		21600      ; refresh after 6 hours
 		3600       ; retry after 1 hour
 		604800     ; expire after 1 week
