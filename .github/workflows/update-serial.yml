@@ -3,7 +3,7 @@ name: Update and Tag DNS Zone Serial
 on:
   push:
     branches:
-      - "master"
+      - "main"
 
 jobs:
   build:
