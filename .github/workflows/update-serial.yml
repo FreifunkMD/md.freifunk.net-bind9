@@ -7,8 +7,8 @@ on:
 
 jobs:
   build:
-    name: "Release"
-    runs-on: ubuntu-18.04
+    name: "Update and Tag DNS Zone Serial"
+    runs-on: ubuntu-latest
     steps:
       - name: "Check-out"
         uses: actions/checkout@v3
