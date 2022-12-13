@@ -9,7 +9,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
 
 EXPOSE 53/udp 53/tcp
 
-COPY md.freifunk.net.zone /etc/bind
+COPY db.md.freifunk.net /etc/bind
 COPY named.conf.local /etc/bind
 
 CMD ["/usr/sbin/named", "-f", "-g"]
