@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
       - name: "Update DNS Zone Serial"
         run: |
-          zone_file="md.freifunk.net.zone"
+          zone_file="db.md.freifunk.net"
           current_serial="$(grep -o -P '[0-9]{10}(?= ; serial)' ${zone_file})"
           serial_linenumber="$(grep -n -P '[0-9]{10}(?= ; serial)' ${zone_file} | cut -d : -f 1)"
           current_date="${current_serial:0:8}"
@@ -35,7 +35,7 @@ jobs:
         with:
           # The arguments for the `git add` command (see the paragraph below for more info)
           # Default: '.'
-          add: 'md.freifunk.net.zone'
+          add: 'db.md.freifunk.net'
           # The message for the commit.
           # Default: 'Commit from GitHub Actions (name of the workflow)'
           message: 'Update Zone Serial number'

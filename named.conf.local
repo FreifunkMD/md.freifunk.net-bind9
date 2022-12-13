@@ -8,5 +8,5 @@
 
 zone "md.freifunk.net" IN {
     type master;
-    file "/etc/bind/md.freifunk.net.zone";
+    file "/etc/bind/db.md.freifunk.net";
 };
