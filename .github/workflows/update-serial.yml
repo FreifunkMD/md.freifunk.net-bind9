@@ -13,6 +13,7 @@ jobs:
       - name: "Check-out"
         uses: actions/checkout@v3
       - name: "Update DNS Zone Serial"
+        id: generate-serial
         run: |
           zone_file="db.md.freifunk.net"
           current_serial="$(grep -o -P '[0-9]{10}(?= ; serial)' ${zone_file})"
@@ -28,7 +29,7 @@ jobs:
               new_sequence="01"
           fi
           new_serial="$(echo $new_date${new_sequence: -2})"
-          echo "::set-env DOCKER_TAG=v$new_serial"
+          echo "::set-output name=SERIAL::$new_serial"
           sed -i "${serial_linenumber}s/$current_serial/$new_serial/" ${zone_file}
       - name: "Add and Commit"
         uses: EndBug/add-and-commit@v9
@@ -41,4 +42,4 @@ jobs:
           message: 'Update Zone Serial number'
           # Arguments for the git tag command (the tag name always needs to be the first word not preceded by an hyphen)
           # Default: ''
-          tag: '$DOCKER_TAG'
+          tag: "v${{ steps.generate-serial.outputs.SERIAL }}"
