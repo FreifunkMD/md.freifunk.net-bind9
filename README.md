@@ -4,7 +4,7 @@
 
 ## Releases
 
-Releases are created automatically based on the version.
+Serial Number and releases are created automatically when changes are pushed (merged via PR) to the main branch.
 
 **Version tags** follow the serial numbers, e.g. `v2022060801`.
 The serial number will be the tag for the docker image.
