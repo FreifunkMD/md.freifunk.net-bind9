@@ -1,0 +1,44 @@
+name: Update and Tag DNS Zone Serial
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    name: "Release"
+    runs-on: ubuntu-18.04
+    steps:
+      - name: "Check-out"
+        uses: actions/checkout@v3
+      - name: "Update DNS Zone Serial"
+        run: |
+          zone_file="md.freifunk.net.zone"
+          current_serial="$(grep -o -P '[0-9]{10}(?= ; serial)' ${zone_file})"
+          serial_linenumber="$(grep -n -P '[0-9]{10}(?= ; serial)' ${zone_file} | cut -d : -f 1)"
+          current_date="${current_serial:0:8}"
+          current_sequence="${current_serial:8:2}"
+          new_date="$(date +%Y%m%d)"
+          if [ "$current_date" = "$new_date" ]; 
+          then
+          # we use bc and substringing because current serial has leading zeros 
+              new_sequence="$(printf "%02.0f\n" "$( echo ${current_sequence}+1 | bc)")"
+          else
+              new_sequence="01"
+          fi
+          new_serial="$(echo $new_date${new_sequence: -2})"
+          echo "::set-env DOCKER_TAG=v$new_serial"
+          sed -i "${serial_linenumber}s/$current_serial/$new_serial/" ${zone_file}
+      - name: "Add and Commit"
+        uses: EndBug/add-and-commit@v9
+        with:
+          # The arguments for the `git add` command (see the paragraph below for more info)
+          # Default: '.'
+          add: 'md.freifunk.net.zone'
+          # The message for the commit.
+          # Default: 'Commit from GitHub Actions (name of the workflow)'
+          message: 'Update Zone Serial number'
+          # Arguments for the git tag command (the tag name always needs to be the first word not preceded by an hyphen)
+          # Default: ''
+          tag: '$DOCKER_TAG'
