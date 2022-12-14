@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: "Update and Tag DNS Zone Serial"
-    if: github.repository-owner == "FreifunkMD"
+    if: github.repository-owner == 'FreifunkMD'
     runs-on: ubuntu-latest
     steps:
       - name: "Check-out"
