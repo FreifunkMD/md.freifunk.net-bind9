@@ -1,24 +1,49 @@
 name: Update and Tag DNS Zone Serial
 
 on:
-  push:
-    branches:
-      - "main"
+  workflow_call:
+    inputs:
+      ZONE_FILE:
+        description: "Shell glob for detecting zone files."
+        type: string
+        required: false
+        default: "db.*"
+    outputs:
+      SERIAL:
+        description: "Created zone serial number, if any."
+        value: ${{ jobs.generate-serial.outputs.serial }}
+
+# Make sure only one job at a time is generating a serial number
+concurrency: generate-serial
 
 jobs:
-  build:
-    name: "Update and Tag DNS Zone Serial"
-    if: github.repository_owner == 'FreifunkMD'
+  generate-serial:
+    name: "Generate DNS Zone Serial"
     runs-on: ubuntu-latest
+    outputs:
+      SERIAL: ${{ steps.generate-serial.outputs.serial }}
     steps:
       - name: "Check-out"
         uses: actions/checkout@v3
+        with:
+            fetch-depth: 2
+
+      - name: "Check if zone file has been changed"
+        id: check-for-change
+        run: |
+          zones_changed=$(git diff --name-only HEAD^1 HEAD | grep "${{ inputs.ZONE_FILE }}" | wc -l)
+          if [ "$zones_changed" = 0 ]
+          then
+            echo "::notice::Zone file has not been changed."
+          fi
+          echo "zones_changed=$zones_changed" >> $GITHUB_OUTPUT
+
       - name: "Update DNS Zone Serial"
         id: generate-serial
+        if: steps.check-for-change.outputs.zones_changed > 0
         run: |
-          zone_file="db.md.freifunk.net"
-          current_serial="$(grep -o -P '[0-9]{10}(?= ; serial)' ${zone_file})"
-          serial_linenumber="$(grep -n -P '[0-9]{10}(?= ; serial)' ${zone_file} | cut -d : -f 1)"
+          current_serial="$(grep -o -P '[0-9]{10}(?= ; serial)' ${{ inputs.ZONE_FILE }})"
+          serial_linenumber="$(grep -n -P '[0-9]{10}(?= ; serial)' ${{ inputs.ZONE_FILE }} | cut -d : -f 1)"
           current_date="${current_serial:0:8}"
           current_sequence="${current_serial:8:2}"
           new_date="$(date +%Y%m%d)"
@@ -30,17 +55,20 @@ jobs:
               new_sequence="01"
           fi
           new_serial="$(echo $new_date${new_sequence: -2})"
-          echo "::set-output name=SERIAL::$new_serial"
-          sed -i "${serial_linenumber}s/$current_serial/$new_serial/" ${zone_file}
+          echo "::notice::Created Zone serial $new_serial"
+          echo "serial=$new_serial" >> $GITHUB_OUTPUT
+          sed -i "${serial_linenumber}s/$current_serial/$new_serial/" ${{ inputs.ZONE_FILE }}
+
       - name: "Add and Commit"
         uses: EndBug/add-and-commit@v9
+        if: steps.generate-serial.outputs.serial
         with:
           # The arguments for the `git add` command (see the paragraph below for more info)
           # Default: '.'
-          add: 'db.md.freifunk.net'
+          add: "${{ inputs.ZONE_FILE }}"
           # The message for the commit.
           # Default: 'Commit from GitHub Actions (name of the workflow)'
           message: 'Update Zone Serial number'
           # Arguments for the git tag command (the tag name always needs to be the first word not preceded by an hyphen)
           # Default: ''
-          tag: "v${{ steps.generate-serial.outputs.SERIAL }}"
+          tag: "v${{ steps.generate-serial.outputs.serial }}"
