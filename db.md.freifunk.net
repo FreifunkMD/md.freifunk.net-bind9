@@ -13,5 +13,4 @@ $TTL 86400
             TXT     v=spf1 mx ~all
 _dmarc      TXT     "v=DMARC1; p=reject; rua=kontakt@md.freifunk.net"
 ;
-ns1         A       5.252.224.201
-ns2	    A       5.45.104.191 ; tau.netz39.de
+ns1         A       5.45.104.191 ; tau.netz39.de
