@@ -15,25 +15,3 @@ _dmarc      TXT     "v=DMARC1; p=reject; rua=kontakt@md.freifunk.net"
 ;
 ns1         A       5.252.224.201
 ns2	    A       5.45.104.191 ; tau.netz39.de
-;
-web         A       5.252.224.201
-            AAAA    2a03:4000:40:33f::1
-;
-gw01.babel  A       159.69.157.35
-            AAAA    2a01:4f8:1c1c:71b5::1
-gw02.babel  A       185.37.145.35
-;
-web1        A       37.120.170.49
-            AAAA    2a03:4000:6:507b::1
-gw1         A       37.120.160.206
-            AAAA    2a03:4000:6:30c3::1
-gw2         A       46.232.249.208
-            AAAA    2a03:4000:2b:239::ff
-;
-grafana     CNAME   web
-map         CNAME   web
-firmware    CNAME   web
-;
-fastd1      CNAME   gw1
-fastd2      CNAME   gw2
-graph       CNAME   web1
